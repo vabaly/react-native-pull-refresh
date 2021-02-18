@@ -122,6 +122,7 @@ class AnimatedPullToRefresh extends React.Component {
 
   _handlePanResponderEnd(e, gestureState) {
     if (!this.props.isRefreshing) {
+      // 超过从外面设置的最大下拉高度，则触发外面传进来的刷新事件
       if (this.state.refreshHeight._value <= -this.props.pullHeight) {
         this.onScrollRelease();
         Animated.parallel([
@@ -138,6 +139,7 @@ class AnimatedPullToRefresh extends React.Component {
           this.onRepeatAnimation();
         });
       } else if (this.state.refreshHeight._value <= 0) {
+        // 否则，回到原处，不刷新
         Animated.spring(this.state.refreshHeight, {
           toValue: 0,
         }).start();
